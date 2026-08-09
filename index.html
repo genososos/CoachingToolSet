@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coaching Tools – Übersicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f2ec;
+    --ink: #2b2822;
+    --petrol: #2f5d62;
+    --plum: #6b4a5e;
+    --forest: #3f5c3f;
+    --terracotta: #b5623f;
+    --slate: #52606d;
+    --amber: #c8853a;
+    --card-bg: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+
+  header {
+    margin-bottom: 56px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 40px;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+
+  header p {
+    color: var(--slate);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    .wrap { padding: 48px 18px 60px; }
+  }
+
+  a.card {
+    display: block;
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 28px 26px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(43, 40, 34, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+
+  a.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--accent-color);
+  }
+
+  a.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(43, 40, 34, 0.10);
+    border-color: rgba(43, 40, 34, 0.14);
+  }
+
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-color);
+    color: #fff;
+    font-size: 19px;
+    margin-bottom: 18px;
+  }
+
+  .card h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+
+  .card p {
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.55;
+    margin: 0 0 18px;
+  }
+
+  .card-link {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  .card-link .arrow {
+    transition: transform 0.18s ease;
+  }
+
+  a.card:hover .card-link .arrow {
+    transform: translateX(3px);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 56px;
+    font-size: 12px;
+    color: var(--slate);
+    opacity: 0.7;
+  }
+
+  .impressum-link {
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--slate);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 4px;
+  }
+
+  .impressum-link:hover {
+    color: var(--amber);
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 40, 34, 0.45);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 32px 30px;
+    max-width: 360px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 48px rgba(43, 40, 34, 0.22);
+  }
+
+  .modal h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  .modal dl {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--slate);
+  }
+
+  .modal dt {
+    font-weight: 600;
+    color: var(--ink);
+    display: inline;
+  }
+
+  .modal dd {
+    margin: 0 0 8px;
+    display: inline;
+  }
+
+  .modal dd::after {
+    content: "";
+    display: block;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--slate);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-close:hover {
+    color: var(--terracotta);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Coaching Toolbox</div>
+      <h1>Meine digitalen Werkzeuge</h1>
+      <p>Eine Übersicht der interaktiven Selbsttests und Materialien für Coaching-Sitzungen.</p>
+    </header>
+
+    <div class="grid">
+
+      <a class="card" style="--accent-color: var(--petrol);" href="https://genososos.github.io/Motivstruktur-Kurztest/index.html">
+        <div class="card-icon">M</div>
+        <h2>Motivstruktur-Kurztest</h2>
+        <p>MSA-18 – Kurztest zu den 18 grundlegenden motivationalen Antrieben.</p>
+        <span class="card-link">Test öffnen <span class="arrow">→</span></span>
+      </a>
+
+      <a class="card" style="--accent-color: var(--terracotta);" href="https://genososos.github.io/CoachingThemenKarten/index.html">
+        <div class="card-icon">K</div>
+        <h2>Coaching Themenkarten</h2>
+        <p>Digitale Kartenübersicht zu Antreibern, Motiven, Werten und weiteren Coaching-Themen.</p>
+        <span class="card-link">Karten öffnen <span class="arrow">→</span></span>
+      </a>
+
+      <a class="card" style="--accent-color: var(--plum);" href="https://genososos.github.io/Konfliktprofil-Test/index.html">
+        <div class="card-icon">P</div>
+        <h2>Konfliktprofil-Test</h2>
+        <p>Analyse des persönlichen Konfliktverhaltens und typischer Reaktionsmuster.</p>
+        <span class="card-link">Profil erstellen <span class="arrow">→</span></span>
+      </a>
+
+      <a class="card" style="--accent-color: var(--forest);" href="https://genososos.github.io/AntreiberTest/index.html">
+        <div class="card-icon">A</div>
+        <h2>Antreiber-Test</h2>
+        <p>Basierend auf der Transaktionsanalyse – 5 innere Antreiber und ihre Ausprägung.</p>
+        <span class="card-link">Test starten <span class="arrow">→</span></span>
+      </a>
+
+    </div>
+
+    <footer>
+      Systemischer Business Coaching · Digitale Tools<br>
+      <button class="impressum-link" onclick="openImpressum()">Impressum</button>
+    </footer>
+  </div>
+
+  <div class="modal-overlay" id="impressumOverlay" onclick="closeImpressumOnOverlay(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeImpressum()" aria-label="Schließen">✕</button>
+      <h3>Impressum</h3>
+      <dl>
+        <dt>Ersteller:</dt> <dd>Thomas Pawlik</dd><br>
+        <dt>E-Mail:</dt> <dd>TPdesignwerkstatt@gmail.com</dd><br>
+        <dt>Letztes Update:</dt> <dd>09. August 2026</dd><br>
+        <dt>Seitenaufrufe:</dt> <dd id="visitCount">–</dd>
+      </dl>
+    </div>
+  </div>
+
+  <script>
+    function openImpressum() {
+      document.getElementById('impressumOverlay').classList.add('open');
+    }
+    function closeImpressum() {
+      document.getElementById('impressumOverlay').classList.remove('open');
+    }
+    function closeImpressumOnOverlay(e) {
+      if (e.target.id === 'impressumOverlay') closeImpressum();
+    }
+
+    // Echter globaler Besucherzähler über CountAPI (kostenloser, öffentlicher Dienst).
+    // Namespace so gewählt, dass er einmalig ist und nicht mit anderen Seiten kollidiert.
+    (function () {
+      var namespace = 'tpdesignwerkstatt-coaching-tools-nav';
+      var key = 'visits';
+      var el = document.getElementById('visitCount');
+
+      fetch('https://api.countapi.xyz/hit/' + namespace + '/' + key)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          el.textContent = data.value;
+        })
+        .catch(function () {
+          el.textContent = 'nicht verfügbar';
+        });
+    })();
+  </script>
+</body>
+</html>
