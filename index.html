@@ -293,6 +293,8 @@
     <footer>
       Systemischer Business Coaching · Digitale Tools<br>
       <button class="impressum-link" onclick="openImpressum()">Impressum</button>
+      <button class="impressum-link" onclick="openDatenschutz()">Datenschutz</button>
+      <button class="impressum-link" onclick="gaResetConsent()">Cookie-Einstellungen</button>
     </footer>
   </div>
 
@@ -335,6 +337,76 @@
         .catch(function () {
           el.textContent = 'nicht verfügbar';
         });
+    })();
+  </script>
+
+  <!-- Datenschutz-Modal -->
+  <div class="modal-overlay" id="datenschutzOverlay" onclick="if(event.target.id==='datenschutzOverlay')closeDatenschutz()">
+    <div class="modal" style="max-width:520px;max-height:80vh;overflow:auto;">
+      <button class="modal-close" onclick="closeDatenschutz()" aria-label="Schließen">✕</button>
+      <h3>Datenschutz</h3>
+      <div style="font-size:13.5px;line-height:1.6;color:var(--slate);">
+        <p><strong style="color:var(--ink);">Verantwortlicher:</strong> Thomas Pawlik, TPdesignwerkstatt@gmail.com</p>
+        <p><strong style="color:var(--ink);">Google Analytics 4:</strong> Mit deiner Einwilligung nutzen wir Google Analytics 4 (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) zur Reichweitenmessung. Dabei werden Cookies gesetzt und Nutzungsdaten (z. B. aufgerufene Seiten, ungefährer Standort, Gerätetyp) verarbeitet. Eine Übermittlung an Google LLC in die USA ist möglich.</p>
+        <p><strong style="color:var(--ink);">Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Ohne deine Einwilligung wird Google Analytics nicht geladen.</p>
+        <p><strong style="color:var(--ink);">Widerruf:</strong> Du kannst deine Entscheidung jederzeit über „Cookie-Einstellungen“ im Seitenfuß ändern. Die Daten werden nach der in Google Analytics eingestellten Aufbewahrungsdauer gelöscht.</p>
+        <p><strong style="color:var(--ink);">Weitere Dienste:</strong> Schriftarten werden von Google Fonts geladen, der Seitenaufrufzähler im Impressum nutzt einen externen Dienst. Dabei wird deine IP-Adresse an den jeweiligen Anbieter übermittelt.</p>
+        <p><strong style="color:var(--ink);">Deine Rechte:</strong> Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch sowie Beschwerde bei einer Aufsichtsbehörde.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie-Banner + Google Analytics 4 (lädt erst nach Einwilligung) -->
+  <style>
+    #cc-banner{position:fixed;bottom:0;left:0;right:0;background:#2b2822;color:#fff;padding:16px 20px;
+      font:14px/1.4 'Inter',sans-serif;display:none;z-index:9999;align-items:center;gap:12px;
+      flex-wrap:wrap;justify-content:center}
+    #cc-banner a{color:#e3b57a}
+    #cc-banner button{border:0;padding:8px 16px;border-radius:6px;cursor:pointer;font:600 14px 'Inter',sans-serif}
+    #cc-accept{background:#2f5d62;color:#fff}
+    #cc-decline{background:#e6e1d6;color:#2b2822}
+  </style>
+  <div id="cc-banner">
+    <span>Wir nutzen Google Analytics, um die Nutzung dieser Seite auszuwerten. Dabei werden Cookies gesetzt.
+      <a href="#" onclick="openDatenschutz();return false;">Datenschutz</a></span>
+    <button id="cc-accept">Akzeptieren</button>
+    <button id="cc-decline">Ablehnen</button>
+  </div>
+  <script>
+    function openDatenschutz() { document.getElementById('datenschutzOverlay').classList.add('open'); }
+    function closeDatenschutz() { document.getElementById('datenschutzOverlay').classList.remove('open'); }
+
+    (function () {
+      var GA_ID = 'G-EQGCX494N5', KEY = 'ga_consent';
+      var banner = document.getElementById('cc-banner');
+
+      function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+      function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+      function loadGA() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      document.getElementById('cc-accept').onclick = function () { set('yes'); banner.style.display = 'none'; loadGA(); };
+      document.getElementById('cc-decline').onclick = function () { set('no'); banner.style.display = 'none'; };
+
+      window.gaResetConsent = function () {
+        try { localStorage.removeItem(KEY); } catch (e) {}
+        location.reload();
+      };
+
+      var c = get();
+      if (c === 'yes') loadGA();
+      else if (c !== 'no') banner.style.display = 'flex';
     })();
   </script>
 </body>
